@@ -4,7 +4,7 @@ import com.github.skozlov.ai.Matrix.Coordinates
 import com.github.skozlov.ai.World._
 import Agent.Action._
 
-class World(val fields: Matrix[Temperature], agent: Agent, val agentCoordinates: Matrix.Coordinates){
+class World(val fields: Matrix[Temperature], val agent: Agent, val agentCoordinates: Matrix.Coordinates){
 	require(fields containsCellWithCoordinates agentCoordinates)
 
 	def tact(): World = {

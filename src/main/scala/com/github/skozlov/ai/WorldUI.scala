@@ -3,10 +3,12 @@ package com.github.skozlov.ai
 import com.github.skozlov.ai.Matrix.Coordinates
 
 import scala.concurrent.Future
-import scala.swing.{Label, GridPanel, BorderPanel, MainFrame}
+import scala.swing._
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class UI(private var world: World) extends MainFrame{
+class WorldUI(private var world: World) extends Frame{
+	title = world.agent.getClass.getName
+
 	private val cells = new MatrixBuilder[Label](
 		rowsCount = world.fields.rowsCount,
 		columnsCount = world.fields.columnsCount)
@@ -30,6 +32,7 @@ class UI(private var world: World) extends MainFrame{
 	}
 
 	def start(): Unit ={
+		visible = true
 		Future{
 			while(true){
 				Thread.sleep(1000)
