@@ -2,11 +2,9 @@ package com.github.skozlov.ai
 
 import com.github.skozlov.ai.Matrix.Coordinates
 
-import scala.concurrent.Future
 import scala.swing._
-import scala.concurrent.ExecutionContext.Implicits.global
 
-class WorldUI(private var world: World) extends Frame{
+class WorldUI(world: World) extends Frame{
 	title = world.agent.getClass.getName
 
 	private val cells = new MatrixBuilder[Label](
@@ -26,21 +24,21 @@ class WorldUI(private var world: World) extends Frame{
 			fields.contents += cell
 		}
 
-		cells(world.agentCoordinates).text = "@"
-
 		layout(fields) = BorderPanel.Position.Center
 	}
 
-	def start(): Unit ={
-		visible = true
-		Future{
-			while(true){
-				Thread.sleep(1000)
-				val agentOldCoordinates = world.agentCoordinates
-				world = world.tact()
-				cells(agentOldCoordinates).text = world.fields(agentOldCoordinates).toString
-				cells(world.agentCoordinates).text = "@"
+	private var previousAgentCoordinates: Option[Matrix.Coordinates] = None
+
+	for(
+		agentCoordinates <- world.agentCoordinatesStream;
+		cell = cells(agentCoordinates)
+	){
+		Swing.onEDT{
+			for(oldAgentCoordinates <- previousAgentCoordinates){
+				cells(oldAgentCoordinates).text = world.fields(oldAgentCoordinates).toString
 			}
+			previousAgentCoordinates = Some(agentCoordinates)
+			cell.text = "@"
 		}
 	}
 }

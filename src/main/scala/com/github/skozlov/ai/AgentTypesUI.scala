@@ -1,18 +1,45 @@
 package com.github.skozlov.ai
 
-import scala.swing.ListView
-import scala.swing.event.MouseClicked
+import java.awt.BorderLayout
+import java.awt.event.{MouseAdapter, MouseEvent}
+import javax.swing.{DefaultListModel, JList}
 
-class AgentTypesUI extends ListView[Class[_ <: Agent]](Agent.AgentTypes){
-	tooltip = "Double-click to create a world with an agent of selected type"
+import scala.swing.event.ButtonClicked
+import scala.swing.{BorderPanel, Button, MainFrame}
 
-	listenTo(mouse.clicks)
+class AgentTypesUI(controller: Controller) extends MainFrame{
+	contents = new BorderPanel{
+		tooltip = "Double-click to create a world with an agent of selected type"
 
-	reactions += {
-		case MouseClicked(_, point, _, 2, _) =>
-			val agentType = Agent.AgentTypes(peer.locationToIndex(point))
-			val agent = agentType.newInstance()
-			val world = World.random(minSize = 3, maxSize = 10, agent)
-			new WorldUI(world).start()
+		private val startButton = new Button("Start") {
+			enabled = false
+		}
+		listenTo(startButton)
+		reactions += {
+			case ButtonClicked(_) =>
+				startButton.enabled = false
+				controller.start()
+		}
+		layout(startButton) = BorderPanel.Position.South
+
+		peer.add(
+			new JList[Class[_ <: Agent]] {
+				val model = new DefaultListModel[Class[_ <: Agent]]() {
+					Agent.AgentTypes foreach addElement
+				}
+				setModel(model)
+				addMouseListener(new MouseAdapter {
+					override def mouseClicked(e: MouseEvent): Unit = {
+						if (e.getClickCount >= 2) {
+							val index = locationToIndex(e.getPoint)
+							val agentType = model.remove(index)
+							controller addAgent agentType.newInstance()
+							startButton.enabled = true
+						}
+					}
+				})
+			},
+			BorderLayout.CENTER
+		)
 	}
 }

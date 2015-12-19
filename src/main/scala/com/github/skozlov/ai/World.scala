@@ -1,22 +1,26 @@
 package com.github.skozlov.ai
 
+import com.github.skozlov.ai.Agent.Action._
 import com.github.skozlov.ai.Matrix.Coordinates
+import com.github.skozlov.ai.Property.property2Observable
 import com.github.skozlov.ai.World._
-import Agent.Action._
+import rx.lang.scala.Observable
 
-class World(val fields: Matrix[Temperature], val agent: Agent, val agentCoordinates: Matrix.Coordinates){
-	require(fields containsCellWithCoordinates agentCoordinates)
+class World(val fields: Matrix[Temperature], val agent: Agent, agentInitCoordinates: Matrix.Coordinates){
+	require(fields containsCellWithCoordinates agentInitCoordinates)
+	private val agentCoordinates = Property(agentInitCoordinates)
 
-	def tact(): World = {
-		val newCoordinates = agent.react(fields(agentCoordinates)) match {
-			case North => agentCoordinates.northNeighborCoordinates
-			case South => agentCoordinates.southNeighborCoordinates(rowsCount = fields.rowsCount)
-			case West => agentCoordinates.westNeighborCoordinates
-			case East => agentCoordinates.eastNeighborCoordinates(columnsCount = fields.columnsCount)
-			case Stand => agentCoordinates
+	def tact() {
+		agentCoordinates.value = agent.react(fields(agentCoordinates.value)) match {
+			case North => agentCoordinates.value.northNeighborCoordinates
+			case South => agentCoordinates.value.southNeighborCoordinates(rowsCount = fields.rowsCount)
+			case West => agentCoordinates.value.westNeighborCoordinates
+			case East => agentCoordinates.value.eastNeighborCoordinates(columnsCount = fields.columnsCount)
+			case Stand => agentCoordinates.value
 		}
-		new World(fields, agent, newCoordinates)
 	}
+
+	val agentCoordinatesStream: Observable[Matrix.Coordinates] = agentCoordinates
 }
 
 object World{

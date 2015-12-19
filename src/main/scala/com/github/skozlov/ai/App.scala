@@ -1,9 +1,10 @@
 package com.github.skozlov.ai
 
-import scala.swing.{MainFrame, Frame, SimpleSwingApplication}
+import scala.concurrent.duration._
+import scala.swing.{Frame, SimpleSwingApplication}
 
 object App extends SimpleSwingApplication {
-	override lazy val top: Frame = new MainFrame{
-		contents = new AgentTypesUI
-	}
+	private val controller = new Controller(minSize = 3, maxSize = 10, tactMinDuration = 1.second)
+
+	override lazy val top: Frame = new AgentTypesUI(controller)
 }
