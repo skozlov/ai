@@ -21,5 +21,9 @@ object Agent{
 
 	lazy val AgentTypes: List[Class[_ <: Agent]] =
 		new Reflections().getSubTypesOf(classOf[Agent]).asScala.toList
-			.filter{agentType => !agentType.isInterface && !Modifier.isAbstract(agentType.getModifiers)}
+			.filter{agentType =>
+				!agentType.isInterface &&
+					!Modifier.isAbstract(agentType.getModifiers) &&
+					agentType.getConstructors.exists{_.getParameterCount == 0}
+			}
 }
