@@ -14,6 +14,8 @@ trait Agent{
 }
 
 object Agent{
+	type Pleasure = Temperature
+
 	object Action extends Enumeration{
 		type Action = Value
 		val North, South, West, East, Stand = Value

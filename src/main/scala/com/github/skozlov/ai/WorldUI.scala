@@ -2,6 +2,7 @@ package com.github.skozlov.ai
 
 import com.github.skozlov.ai.Matrix.Coordinates
 
+import scala.swing.BorderPanel.Position
 import scala.swing._
 
 class WorldUI(world: World) extends Frame{
@@ -24,7 +25,13 @@ class WorldUI(world: World) extends Frame{
 			fields.contents += cell
 		}
 
-		layout(fields) = BorderPanel.Position.Center
+		val totalPleasure = new Label("0")
+		world.totalPleasure foreach {p => Swing.onEDT{
+			totalPleasure.text = p.toString
+		}}
+
+		layout(fields) = Position.Center
+		layout(totalPleasure) = Position.South
 	}
 
 	private var previousAgentCoordinates: Option[Matrix.Coordinates] = None

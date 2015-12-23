@@ -1,6 +1,7 @@
 package com.github.skozlov.ai
 
 import com.github.skozlov.ai.Agent.Action._
+import com.github.skozlov.ai.Agent.Pleasure
 import com.github.skozlov.ai.Matrix.Coordinates
 import com.github.skozlov.ai.Property.property2Observable
 import com.github.skozlov.ai.World._
@@ -9,6 +10,7 @@ import rx.lang.scala.Observable
 class World(val fields: Matrix[Temperature], val agent: Agent, agentInitCoordinates: Matrix.Coordinates){
 	require(fields containsCellWithCoordinates agentInitCoordinates)
 	private val agentCoordinates = Property(agentInitCoordinates)
+	private val _totalPleasure = Property(fields(agentInitCoordinates))
 
 	def tact() {
 		agentCoordinates.value = agent.react(fields(agentCoordinates.value)) match {
@@ -18,9 +20,12 @@ class World(val fields: Matrix[Temperature], val agent: Agent, agentInitCoordina
 			case East => agentCoordinates.value.eastNeighborCoordinates(columnsCount = fields.columnsCount)
 			case Stand => agentCoordinates.value
 		}
+		_totalPleasure.value = _totalPleasure.value + fields(agentCoordinates.value)
 	}
 
 	val agentCoordinatesStream: Observable[Matrix.Coordinates] = agentCoordinates
+	val pleasure: Observable[Pleasure] = agentCoordinatesStream map {fields(_)}
+	val totalPleasure: Observable[Pleasure] = _totalPleasure
 }
 
 object World{
