@@ -2,13 +2,15 @@ package com.github.skozlov.ai
 
 import com.github.skozlov.ai.Matrix.Coordinates
 import com.github.skozlov.ai.World.Temperature
+import rx.lang.scala.subjects.PublishSubject
+import rx.lang.scala.{Observable, Subject}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.duration.FiniteDuration
 
-class Controller(minSize: Int, maxSize: Int, tactMinDuration: FiniteDuration){
+class Model(minSize: Int, maxSize: Int, tactMinDuration: FiniteDuration){
 	require(minSize >= 1)
 	require(minSize <= maxSize)
 
@@ -32,25 +34,34 @@ class Controller(minSize: Int, maxSize: Int, tactMinDuration: FiniteDuration){
 	}
 	private val agentInitCoordinates = Coordinates.random(rowsCount = size, columnsCount = size)
 
-	private val worlds = new ListBuffer[World]
+	private val _worlds = new ListBuffer[World]
+	def worlds(): List[World] = _worlds.toList
 
 	def addAgent(agent: Agent): Unit = {
 		val world = new World(fields, agent, agentInitCoordinates)
-		worlds += world
+		_worlds += world
 		new WorldUI(world).visible = true
 	}
 
 	def start(): Unit ={
+		startSubject.onNext()
 		Future{
 			def tact(): Unit ={
 				val deadline = tactMinDuration.fromNow
-				Future.traverse(worlds){world => Future{world.tact()}}.map{_ =>
+				Future.traverse(_worlds){world => Future{world.tact()}}.map{_ =>
 					val rest = deadline.timeLeft.toMillis
 					if(rest > 0) Thread.sleep(rest)
+					_tactNumber.value = _tactNumber.value + 1
 					tact()
 				}
 			}
 			tact()
 		}
 	}
+
+	private val startSubject: Subject[Unit] = PublishSubject()
+	val startStream: Observable[Unit] = startSubject
+
+	private val _tactNumber = Property(0)
+	val tactNumber: Observable[Int] = _tactNumber
 }
