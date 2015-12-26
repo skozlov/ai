@@ -13,7 +13,7 @@ class World(val fields: Matrix[Temperature], val agent: Agent, agentInitCoordina
 	private val _totalPleasure = Property(fields(agentInitCoordinates))
 
 	def tact() {
-		agentCoordinates.value = agent.react(fields(agentCoordinates.value)) match {
+		agentCoordinates.value = agent.affect(fields(agentCoordinates.value)) match {
 			case North => agentCoordinates.value.northNeighborCoordinates
 			case South => agentCoordinates.value.southNeighborCoordinates(rowsCount = fields.rowsCount)
 			case West => agentCoordinates.value.westNeighborCoordinates

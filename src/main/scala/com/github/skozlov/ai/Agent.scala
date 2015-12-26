@@ -2,15 +2,27 @@ package com.github.skozlov.ai
 
 import java.lang.reflect.Modifier
 
+import com.github.skozlov.ai.Agent._
 import com.github.skozlov.ai.World.Temperature
-import Agent._
 import org.reflections.Reflections
+
 import scala.collection.JavaConverters._
+import scala.collection.mutable.ListBuffer
 
 trait Agent{
 	import Action.Action
+
+	private val _totalPleasureHistory: ListBuffer[Pleasure] = ListBuffer()
+
+	def totalPleasureHistory(): List[Pleasure] = _totalPleasureHistory.toList
+
+	def affect(temperature: Temperature): Action = {
+		val previous = _totalPleasureHistory.lastOption getOrElse 0
+		_totalPleasureHistory append (previous + temperature)
+		react(temperature)
+	}
 	
-	def react(temperature: Temperature): Action
+	protected def react(temperature: Temperature): Action
 }
 
 object Agent{

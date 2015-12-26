@@ -1,7 +1,10 @@
 package com.github.skozlov.ai
 
+import java.io.File
+
 import com.github.skozlov.ai.Matrix.Coordinates
 import com.github.skozlov.ai.World.Temperature
+import com.github.tototoshi.csv.{DefaultCSVFormat, CSVWriter}
 import rx.lang.scala.subjects.PublishSubject
 import rx.lang.scala.{Observable, Subject}
 
@@ -9,6 +12,7 @@ import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.FiniteDuration
+import resource._
 
 class Model(minSize: Int, maxSize: Int, tactMinDuration: FiniteDuration, tactMaxDuration: FiniteDuration){
 	require(minSize >= 1)
@@ -62,10 +66,24 @@ class Model(minSize: Int, maxSize: Int, tactMinDuration: FiniteDuration, tactMax
 
 	def stop(): Unit ={
 		run = false
+		stopSubject.onNext()
+	}
+
+	def exportAsCsv(file: File): Unit ={
+		for(writer <- managed(CSVWriter.open(file)(new DefaultCSVFormat {
+			override val delimiter: Char = ';'
+		}))){
+			writer.writeAll(worlds().map{w =>
+				val agent = w.agent
+				agent.getClass.getName :: agent.totalPleasureHistory()})
+		}
 	}
 
 	private val startSubject: Subject[Unit] = PublishSubject()
 	val startStream: Observable[Unit] = startSubject
+
+	private val stopSubject: Subject[Unit] = PublishSubject()
+	val stopStream: Observable[Unit] = stopSubject
 
 	private val _tactNumber = Property(0)
 	val tactNumber: Observable[Int] = _tactNumber

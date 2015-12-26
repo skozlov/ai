@@ -1,11 +1,32 @@
 package com.github.skozlov.ai
 
 import javax.swing.JOptionPane._
+import javax.swing.filechooser.FileNameExtensionFilter
 
-import scala.swing.{Swing, Frame}
+import scala.swing._
 
 class MainFrame(implicit model: Model) extends Frame{
 	title = "AI"
+
+	menuBar = new MenuBar{
+		contents += new Menu("File"){
+			contents += new Menu("Export"){
+				enabled = false
+				model.stopStream.foreach{_ => Swing.onEDT{
+					enabled = true
+				}}
+
+				val csvFileChooser = new FileChooser(){
+					fileFilter = new FileNameExtensionFilter("CSV", "csv")
+				}
+				contents += new MenuItem(Action("CSV"){
+					csvFileChooser.showSaveDialog(null) match {
+						case FileChooser.Result.Approve => model.exportAsCsv(csvFileChooser.selectedFile)
+					}
+				})
+			}
+		}
+	}
 
 	contents = new AgentTypesUI
 
