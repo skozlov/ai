@@ -7,10 +7,10 @@ import rx.lang.scala.{Observable, Subject}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.FiniteDuration
 
-class Model(minSize: Int, maxSize: Int, tactMinDuration: FiniteDuration){
+class Model(minSize: Int, maxSize: Int, tactMinDuration: FiniteDuration, tactMaxDuration: FiniteDuration){
 	require(minSize >= 1)
 	require(minSize <= maxSize)
 
@@ -43,20 +43,25 @@ class Model(minSize: Int, maxSize: Int, tactMinDuration: FiniteDuration){
 		new WorldUI(world).visible = true
 	}
 
+	private var run = false
+
 	def start(): Unit ={
+		run = true
 		startSubject.onNext()
 		Future{
-			def tact(): Unit ={
+			while (run){
 				val deadline = tactMinDuration.fromNow
-				Future.traverse(_worlds){world => Future{world.tact()}}.map{_ =>
+				Await.ready(Future.traverse(_worlds){world => Future{world.tact()}}.map{_ =>
 					val rest = deadline.timeLeft.toMillis
 					if(rest > 0) Thread.sleep(rest)
 					_tactNumber.value = _tactNumber.value + 1
-					tact()
-				}
+				}, tactMaxDuration)
 			}
-			tact()
 		}
+	}
+
+	def stop(): Unit ={
+		run = false
 	}
 
 	private val startSubject: Subject[Unit] = PublishSubject()

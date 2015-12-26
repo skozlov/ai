@@ -15,7 +15,7 @@ class AgentTypesUI(implicit model: Model) extends BorderPanel{
 	}
 	listenTo(startButton)
 	reactions += {
-		case ButtonClicked(_) =>
+		case ButtonClicked(b) if b eq startButton =>
 			startButton.enabled = false
 			model.start()
 	}

@@ -4,6 +4,7 @@ import javax.swing.table.DefaultTableModel
 
 import scala.swing.BorderPanel.Position._
 import scala.swing._
+import scala.swing.event.ButtonClicked
 
 class ProgressUI(implicit model: Model) extends BorderPanel{
 	private val tactNumber = new Label
@@ -35,6 +36,15 @@ class ProgressUI(implicit model: Model) extends BorderPanel{
 		}
 	}
 
+	private val stop = new Button("Stop")
+	listenTo(stop)
+	reactions += {
+		case ButtonClicked(b) if b eq stop =>
+			stop.enabled = false
+			model.stop()
+	}
+
 	layout(tactNumber) = North
 	layout(new ScrollPane(table)) = Center
+	layout(stop) = South
 }
