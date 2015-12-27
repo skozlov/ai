@@ -30,6 +30,10 @@ The objective function of the agent is the sum of all values of temperature that
  - <i>ChaoticAgent</i> performs random actions.
  - <i>SpecializedAgent</i> uses an (asymptotically) optimal algorithm to reach the warmest cell and stay there.
 
+## System requirements
+
+[Java 8+](http://java.com/en/download/)
+
 ## Usage
 
 Select types of agents you want to test by double-clicking on them in the main frame.
