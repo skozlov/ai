@@ -24,3 +24,8 @@ Example (the agent is represented by `@`):
 At each moment, the agent can perceive temperature in the cell it is at and react by going to north/south/west/east or remaining in place. The agent can walk only within the environment, i.e. if it is at, for instance, the northernmost cell and tries to go to north, it remains in place.
 
 The objective function of the agent is the sum of all values of temperature that has been perceived by the agent. The agent seeks to maximize the objective function.
+
+## Provided agent types
+
+ - <i>ChaoticAgent</i> performs random actions.
+ - <i>SpecializedAgent</i> uses an (asymptotically) optimal algorithm to reach the warmest cell and stay there.
