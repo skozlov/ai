@@ -29,3 +29,31 @@ The objective function of the agent is the sum of all values of temperature that
 
  - <i>ChaoticAgent</i> performs random actions.
  - <i>SpecializedAgent</i> uses an (asymptotically) optimal algorithm to reach the warmest cell and stay there.
+
+## Usage
+
+Select types of agents you want to test by double-clicking on them in the main frame.
+
+![main_frame](https://raw.githubusercontent.com/skozlov/ai/master/demo/main_frame.png)
+
+As you can see, the program generates equal environments for all environments and visualizes them in separate frames:
+
+![before_start](https://raw.githubusercontent.com/skozlov/ai/master/demo/before_start.png)
+
+To start the worlds, click `Start` button in the main frame.
+Now agents walk through their environments, and the main frame contains a table with the current values of the objective function:
+
+![progress](https://raw.githubusercontent.com/skozlov/ai/master/demo/progress.png)
+
+At the end, you can stop the worlds by clicking `Stop` button.
+Then you are able to export statistics as a [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) file with `;` as a delimiter.
+
+![export_menu](https://raw.githubusercontent.com/skozlov/ai/master/demo/export_menu.png)
+
+![export_dialog](https://raw.githubusercontent.com/skozlov/ai/master/demo/export_dialog.png)
+
+Next, you can work with the CSV file via, for instance, [Microsoft Excel](https://products.office.com/excel)
+
+![table](https://raw.githubusercontent.com/skozlov/ai/master/demo/table.png)
+
+![chart](https://raw.githubusercontent.com/skozlov/ai/master/demo/chart.png)
