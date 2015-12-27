@@ -1,6 +1,8 @@
-name := "AI"
+val projectName = "ai"
+name := projectName
 
-version := "1.0"
+val projectVersion = "1.0.0"
+version := projectVersion
 
 scalaVersion := "2.11.7"
 
@@ -11,3 +13,5 @@ libraryDependencies ++= List(
 	"com.github.tototoshi" %% "scala-csv" % "1.2.2",
 	"com.jsuereth" %% "scala-arm" % "1.4"
 )
+
+assemblyOutputPath in assembly := new File(s"target/$projectName-$projectVersion.jar")
