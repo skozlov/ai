@@ -34,6 +34,20 @@ The objective function of the agent is the sum of all values of temperature that
 
 [Java 8+](http://java.com/en/download/)
 
+## Installation
+
+### Windows
+
+1. [Download an appropriate ZIP file](https://github.com/skozlov/ai/tree/master/releases) which name contains `win`
+2. Unzip all files.
+3. Double-click on extracted `ai.bat`.
+
+### Unix
+
+1. [Download an appropriate ZIP file](https://github.com/skozlov/ai/tree/master/releases) which name contains `unix`
+2. Unzip all files.
+3. Execute `ai.sh`.
+
 ## Usage
 
 Select types of agents you want to test by double-clicking on them in the main frame.
