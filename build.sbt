@@ -1,8 +1,7 @@
 val projectName = "ai"
 name := projectName
 
-val projectVersion = "1.0.0"
-version := projectVersion
+version := "1.0.0"
 
 scalaVersion := "2.11.7"
 
@@ -14,4 +13,4 @@ libraryDependencies ++= List(
 	"com.jsuereth" %% "scala-arm" % "1.4"
 )
 
-assemblyOutputPath in assembly := new File(s"target/$projectName-$projectVersion.jar")
+assemblyOutputPath in assembly := new File(s"target/$projectName.jar")

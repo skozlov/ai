@@ -1,0 +1,54 @@
+<project name="ai" basedir="." default="build-release">
+    <property file="build.properties" />
+    <property name="script.extension.windows" value="bat" />
+    <property name="script.extension.unix" value="sh" />
+    <property name="build.dir" value="${basedir}/target" />
+    <property name="releases.dir" value="${basedir}/releases" />
+
+    <target name="build-release" depends="build-release-windows,build-release-unix" />
+
+    <target name="build-release-windows" depends="clean,assembly">
+        <ant target="create-script">
+            <property name="script.extension" value="${script.extension.windows}" />
+        </ant>
+        <ant target="zip">
+            <property name="platform.name" value="win" />
+            <property name="script.extension" value="${script.extension.windows}" />
+        </ant>
+    </target>
+
+    <target name="build-release-unix" depends="clean,assembly">
+        <ant target="create-script">
+            <property name="script.extension" value="${script.extension.unix}" />
+        </ant>
+        <ant target="zip">
+            <property name="platform.name" value="unix" />
+            <property name="script.extension" value="${script.extension.unix}" />
+        </ant>
+    </target>
+
+    <target name="zip">
+        <zip
+                basedir="${build.dir}"
+                destfile="${releases.dir}/${project.name}-${project.version}-${platform.name}.zip"
+                includes="${jar.name},${script.name.base}.${script.extension}"
+                compress="true"
+        />
+    </target>
+
+    <target name="create-script">
+        <echo message="java -jar ${jar.name}" file="${build.dir}/${script.name.base}.${script.extension}" />
+    </target>
+
+    <target name="assembly">
+        <exec executable="cmd">
+            <arg value="/c" />
+            <arg value="sbt" />
+            <arg value="assembly" />
+        </exec>
+    </target>
+
+    <target name="clean">
+        <delete dir="target" />
+    </target>
+</project>
