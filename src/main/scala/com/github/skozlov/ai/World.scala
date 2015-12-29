@@ -2,9 +2,11 @@ package com.github.skozlov.ai
 
 import com.github.skozlov.ai.Agent.Action._
 import com.github.skozlov.ai.Agent.Pleasure
-import com.github.skozlov.ai.Matrix.Coordinates
-import com.github.skozlov.ai.Property.property2Observable
 import com.github.skozlov.ai.World._
+import com.github.skozlov.commons.scala.collections.{MatrixBuilder, Matrix}
+import com.github.skozlov.commons.scala.collections.Matrix.Coordinates
+import com.github.skozlov.commons.scala.random.Random
+import com.github.skozlov.commons.scala.reactivex.Property
 import rx.lang.scala.Observable
 
 class World(val fields: Matrix[Temperature], val agent: Agent, agentInitCoordinates: Matrix.Coordinates){
@@ -13,13 +15,13 @@ class World(val fields: Matrix[Temperature], val agent: Agent, agentInitCoordina
 	private val _totalPleasure = Property(fields(agentInitCoordinates))
 
 	def tact() {
-		agentCoordinates.value = agent.affect(fields(agentCoordinates.value)) match {
+		agentCoordinates.value = (agent.affect(fields(agentCoordinates.value)) match {
 			case North => agentCoordinates.value.northNeighborCoordinates
 			case South => agentCoordinates.value.southNeighborCoordinates(rowsCount = fields.rowsCount)
 			case West => agentCoordinates.value.westNeighborCoordinates
 			case East => agentCoordinates.value.eastNeighborCoordinates(columnsCount = fields.columnsCount)
-			case Stand => agentCoordinates.value
-		}
+			case Stand => Some(agentCoordinates.value)
+		}).getOrElse(agentCoordinates.value)
 		_totalPleasure.value = _totalPleasure.value + fields(agentCoordinates.value)
 	}
 

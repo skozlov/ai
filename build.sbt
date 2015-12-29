@@ -10,7 +10,8 @@ libraryDependencies ++= List(
 	"org.reflections" % "reflections" % "0.9.10",
 	"io.reactivex" % "rxscala_2.11" % "0.25.0",
 	"com.github.tototoshi" %% "scala-csv" % "1.2.2",
-	"com.jsuereth" %% "scala-arm" % "1.4"
+	"com.jsuereth" %% "scala-arm" % "1.4",
+	"com.github.skozlov" %% "commons-scala" % "0.1.0"
 )
 
 assemblyOutputPath in assembly := new File(s"target/$projectName.jar")

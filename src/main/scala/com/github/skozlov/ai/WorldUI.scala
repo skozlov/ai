@@ -1,6 +1,7 @@
 package com.github.skozlov.ai
 
-import com.github.skozlov.ai.Matrix.Coordinates
+import com.github.skozlov.commons.scala.collections.Matrix.Coordinates
+import com.github.skozlov.commons.scala.collections.{Matrix, MatrixBuilder}
 
 import scala.swing._
 

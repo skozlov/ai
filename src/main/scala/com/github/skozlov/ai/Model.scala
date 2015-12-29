@@ -2,8 +2,11 @@ package com.github.skozlov.ai
 
 import java.io.File
 
-import com.github.skozlov.ai.Matrix.Coordinates
 import com.github.skozlov.ai.World.Temperature
+import com.github.skozlov.commons.scala.collections.{MatrixBuilder, Matrix}
+import com.github.skozlov.commons.scala.collections.Matrix.Coordinates
+import com.github.skozlov.commons.scala.random.Random
+import com.github.skozlov.commons.scala.reactivex.Property
 import com.github.tototoshi.csv.{DefaultCSVFormat, CSVWriter}
 import rx.lang.scala.subjects.PublishSubject
 import rx.lang.scala.{Observable, Subject}
