@@ -4,6 +4,7 @@
     <property name="script.extension.unix" value="sh" />
     <property name="build.dir" value="${basedir}/target" />
     <property name="releases.dir" value="${basedir}/releases" />
+    <property name="license.file.name" value="LICENSE" />
 
     <target name="build-release" depends="build-release-windows,build-release-unix" />
 
@@ -33,6 +34,13 @@
                 destfile="${releases.dir}/${project.name}-${project.version}-${platform.name}.zip"
                 includes="${jar.name},${script.name.base}.${script.extension}"
                 compress="true"
+        />
+        <zip
+                basedir="${basedir}"
+                destfile="${releases.dir}/${project.name}-${project.version}-${platform.name}.zip"
+                includes="${license.file.name}"
+                compress="true"
+                update="true"
         />
     </target>
 
