@@ -1,16 +1,16 @@
-package com.github.skozlov.ai
+package com.github.skozlov.ai.sandbox
 
 import java.lang.reflect.Modifier
 
-import com.github.skozlov.ai.Agent._
-import com.github.skozlov.ai.World.Temperature
+import com.github.skozlov.ai.sandbox.Agent.Action.Action
+import com.github.skozlov.ai.sandbox.Agent.Pleasure
+import com.github.skozlov.ai.sandbox.World.Temperature
 import org.reflections.Reflections
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ListBuffer
 
 trait Agent{
-	import Action.Action
 
 	private val _totalPleasureHistory: ListBuffer[Pleasure] = ListBuffer()
 

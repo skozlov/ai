@@ -1,8 +1,8 @@
-package com.github.skozlov.ai
+package com.github.skozlov.ai.sandbox
 
-import com.github.skozlov.ai.Agent.Action.Action
-import com.github.skozlov.ai.World.Temperature
-import ChaoticAgent._
+import com.github.skozlov.ai.sandbox.Agent.Action.Action
+import com.github.skozlov.ai.sandbox.ChaoticAgent._
+import com.github.skozlov.ai.sandbox.World.Temperature
 import com.github.skozlov.commons.scala.random.Random
 
 class ChaoticAgent extends Agent {

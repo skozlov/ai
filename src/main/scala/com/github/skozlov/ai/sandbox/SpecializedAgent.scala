@@ -1,9 +1,9 @@
-package com.github.skozlov.ai
+package com.github.skozlov.ai.sandbox
 
-import com.github.skozlov.ai.Agent.Action._
-import com.github.skozlov.ai.World.Temperature
+import com.github.skozlov.ai.sandbox.World.Temperature
 
 import scala.collection.mutable.{Set => MutableSet}
+import com.github.skozlov.ai.sandbox.Agent.Action._
 
 class SpecializedAgent extends Agent {
 	private val directionPairs = Array((West, East), (North, South))

@@ -1,4 +1,4 @@
-package com.github.skozlov.ai
+package com.github.skozlov.ai.sandbox
 
 import com.github.skozlov.commons.scala.collections.Matrix.Coordinates
 import com.github.skozlov.commons.scala.collections.{Matrix, MatrixBuilder}

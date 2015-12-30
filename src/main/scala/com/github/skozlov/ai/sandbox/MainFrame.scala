@@ -1,4 +1,4 @@
-package com.github.skozlov.ai
+package com.github.skozlov.ai.sandbox
 
 import javax.swing.JOptionPane._
 import javax.swing.filechooser.FileNameExtensionFilter

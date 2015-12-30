@@ -1,10 +1,10 @@
-package com.github.skozlov.ai
+package com.github.skozlov.ai.sandbox
 
-import com.github.skozlov.ai.Agent.Action._
-import com.github.skozlov.ai.Agent.Pleasure
-import com.github.skozlov.ai.World._
-import com.github.skozlov.commons.scala.collections.{MatrixBuilder, Matrix}
+import com.github.skozlov.ai.sandbox.Agent.Pleasure
+import com.github.skozlov.ai.sandbox.Agent.Action._
+import com.github.skozlov.ai.sandbox.World.Temperature
 import com.github.skozlov.commons.scala.collections.Matrix.Coordinates
+import com.github.skozlov.commons.scala.collections.{Matrix, MatrixBuilder}
 import com.github.skozlov.commons.scala.random.Random
 import com.github.skozlov.commons.scala.reactivex.Property
 import rx.lang.scala.Observable

@@ -1,21 +1,21 @@
-package com.github.skozlov.ai
+package com.github.skozlov.ai.sandbox
 
 import java.io.File
 
-import com.github.skozlov.ai.World.Temperature
-import com.github.skozlov.commons.scala.collections.{MatrixBuilder, Matrix}
+import com.github.skozlov.ai.sandbox.World.Temperature
 import com.github.skozlov.commons.scala.collections.Matrix.Coordinates
+import com.github.skozlov.commons.scala.collections.{Matrix, MatrixBuilder}
 import com.github.skozlov.commons.scala.random.Random
 import com.github.skozlov.commons.scala.reactivex.Property
-import com.github.tototoshi.csv.{DefaultCSVFormat, CSVWriter}
+import com.github.tototoshi.csv.{CSVWriter, DefaultCSVFormat}
+import resource._
 import rx.lang.scala.subjects.PublishSubject
 import rx.lang.scala.{Observable, Subject}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.FiniteDuration
-import resource._
+import scala.concurrent.{Await, Future}
 
 class Model(minSize: Int, maxSize: Int, tactMinDuration: FiniteDuration, tactMaxDuration: FiniteDuration){
 	require(minSize >= 1)

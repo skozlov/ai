@@ -1,11 +1,11 @@
-package com.github.skozlov.ai
+package com.github.skozlov.ai.sandbox
 
 import java.awt.BorderLayout
-import java.awt.event.{MouseEvent, MouseAdapter}
+import java.awt.event.{MouseAdapter, MouseEvent}
 import javax.swing.{DefaultListModel, JList}
 
 import scala.swing.event.ButtonClicked
-import scala.swing.{Button, BorderPanel}
+import scala.swing.{BorderPanel, Button}
 
 class AgentTypesUI(implicit model: Model) extends BorderPanel{
 	tooltip = "Double-click to create a world with an agent of selected type"
